@@ -14,7 +14,6 @@ using Newtonsoft.Json.Linq;
 using YoutubeLib.Extensions;
 using YoutubeLib.Videos;
 using HtmlAgilityPack;
-using YoutubeLib.Channels;
 using YoutubeLib.Playlists;
 using YoutubeLib.Streams;
 using YoutubeLib.Videos.Deciphering;
@@ -26,8 +25,6 @@ namespace YoutubeLib
     /// </summary>
     public sealed class YoutubeService : IYoutubeService
     {
-        private static readonly Regex PlayerSourceCodeRegex = new Regex("\"js\":\"(?<sourcelink>\\S[^,]+)\""); // Holy shit I'm bad at this
-
         private async Task<IDictionary<string, string>> GetVideoInfoAsync(string url)
         {
             var videoId = Utils.ExtractVideoId(url);
@@ -57,19 +54,6 @@ namespace YoutubeLib
             }
 
             return data;
-        }
-
-        /// <inheritdoc />
-        public async Task<Channel> GetChannelAsync(string channelId)
-        {
-            return null;
-        }
-
-        /// <inheritdoc />
-        public async Task<Channel> GetChannelFromVideoAsync(string videoId)
-        {
-            var video = await GetVideoAsync(videoId);
-            return await GetChannelAsync(video.AuthorId);
         }
 
         /// <inheritdoc />
@@ -192,16 +176,19 @@ namespace YoutubeLib
             var htmlDocument = new HtmlDocument();
             htmlDocument.LoadHtml(embedPageHtml);
 
+            var playerSourceCodeRegex = new Regex("\"js\":\"(?<sourcelink>\\S[^,]+)\""); // Holy shit I'm bad at this
             var playerSourceLink = string.Empty;
             foreach (var scriptNode in htmlDocument.DocumentNode.Descendants("script"))
             {
                 Match match;
-                if ((match = PlayerSourceCodeRegex.Match(scriptNode.InnerHtml)).Success)
+                if ((match = playerSourceCodeRegex.Match(scriptNode.InnerHtml)).Success)
                 {
                     playerSourceLink = match.Groups["sourcelink"].Value.Replace("\\", "").Trim('/');
                     break;
                 }
             }
+
+            Debug.Assert(playerSourceLink != null, "Player source link must not be null");
             
             // The player's source code link is relative, thus we have to prepend YouTube's host and then download the source code
             playerSourceLink = $"https://youtube.com/{playerSourceLink}";
