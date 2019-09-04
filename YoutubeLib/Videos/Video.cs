@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Newtonsoft.Json;
 
 namespace YoutubeLib.Videos
@@ -8,41 +9,43 @@ namespace YoutubeLib.Videos
     /// </summary>
     public sealed class Video
     {
+        [JsonProperty("keywords")]
+        private readonly string[] _keywords;
+
         /// <summary>
         ///     Gets the video author's channel ID.
         /// </summary>
         [JsonProperty("channelId")]
-        public string AuthorId { get; }
+        public string AuthorId { get; private set; }
 
         /// <summary>
         ///     Gets the video author's channel name.
         /// </summary>
         [JsonProperty("author")]
-        public string AuthorName { get; }
+        public string AuthorName { get; private set; }
 
         /// <summary>
         ///     Gets the video's description.
         /// </summary>
         [JsonProperty("shortDescription")]
-        public string Description { get; }
+        public string Description { get; private set; }
 
         /// <summary>
         ///     Gets the video's ID.
         /// </summary>
         [JsonProperty("videoId")]
-        public string Id { get; }
+        public string Id { get; private set; }
 
         /// <summary>
         ///     Gets the keywords associated with this video.
         /// </summary>
-        [JsonProperty("keywords")]
-        public IEnumerable<string> Keywords { get; internal set; }
+        public IEnumerable<string> Keywords => _keywords.AsEnumerable();
 
         /// <summary>
         ///     Gets the length of the video.
         /// </summary>
         [JsonProperty("lengthSeconds")]
-        public int LengthSeconds { get; }
+        public int LengthSeconds { get; private set; }
 
         /// <summary>
         ///     Gets the video's thumbnails.
@@ -53,13 +56,13 @@ namespace YoutubeLib.Videos
         ///     Gets the video's title.
         /// </summary>
         [JsonProperty("title")]
-        public string Title { get; set; }
+        public string Title { get; private set; }
 
         /// <summary>
         ///     Gets the video's view count.
         /// </summary>
         [JsonProperty("viewCount")]
-        public int ViewCount { get; }
+        public int ViewCount { get; private set; }
 
         /// <inheritdoc />
         public override string ToString()

@@ -35,7 +35,7 @@ namespace YoutubeLib.Videos
         /// </summary>
         /// <param name="cipher">The ciphered signature.</param>
         /// <returns>The deciphered signature.</returns>
-        public string ApplyDecihperOperations(string cipher)
+        public string ApplyDecipherOperations(string cipher)
         {
             return DecipherFunctions.Aggregate(cipher, (curr, func) => func.Execute(curr));
         }

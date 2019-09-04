@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Web;
 using YoutubeLib.Streams;
 using YoutubeLib.Videos;
@@ -12,8 +13,12 @@ namespace YoutubeLib
     /// <summary>
     ///     Exposes utility methods.
     /// </summary>
-    internal static class Utils
+    public static class Utils
     {
+        private static readonly Regex VideoIdRegex =
+            new Regex(
+                @"(?:https?:\/\/)?(?:www\.)?youtu(?:(\.be)|(be\.com\/(?:(watch)|(v\/))))(?(1)\/(?<videoId>.*)|(?(3)\?v=(?<videoId>.*)|(?<videoId>.*)))");
+
         /// <summary>
         ///     Updates the specified URL with the specified parameters.
         /// </summary>
@@ -46,7 +51,17 @@ namespace YoutubeLib
             return stringBuilder.ToString();
         }
 
-        // TODO: Support various URL authorities (youtu.be, youtube.com/watch/ID etc)
+        /// <summary>
+        ///     Extracts a YouTube playlist ID based on the given input string.
+        /// </summary>
+        /// <param name="input">The input string.</param>
+        /// <returns>The playlist ID.</returns>
+        public static string ExtractPlaylistId(string input)
+        {
+            return HttpUtility.ParseQueryString(input)["list"];
+        }
+
+        // TODO: Support various URL authorities (youtu.be, youtube.com/v/ID etc)
 
         /// <summary>
         ///     Extracts a youtube video ID based on the given input string.
@@ -55,7 +70,15 @@ namespace YoutubeLib
         /// <returns>The video ID.</returns>
         public static string ExtractVideoId(string input)
         {
-            return HttpUtility.ParseQueryString(new Uri(input).Query)["v"];
+            //return HttpUtility.ParseQueryString(new Uri(input).Query)["v"];
+            var match = VideoIdRegex.Match(input ?? string.Empty);
+            if (!match.Success)
+            {
+                return string.Empty;
+            }
+
+            var videoId = match.Groups["videoId"];
+            return videoId == null ? string.Empty : videoId.Value;
         }
 
         /// <summary>

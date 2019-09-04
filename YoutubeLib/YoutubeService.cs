@@ -15,9 +15,9 @@ using YoutubeLib.Extensions;
 using YoutubeLib.Videos;
 using HtmlAgilityPack;
 using YoutubeLib.Channels;
+using YoutubeLib.Playlists;
 using YoutubeLib.Streams;
 using YoutubeLib.Videos.Deciphering;
-using YoutubeLib.Extensions;
 
 namespace YoutubeLib
 {
@@ -66,6 +66,13 @@ namespace YoutubeLib
         }
 
         /// <inheritdoc />
+        public async Task<Channel> GetChannelFromVideoAsync(string videoId)
+        {
+            var video = await GetVideoAsync(videoId);
+            return await GetChannelAsync(video.AuthorId);
+        }
+
+        /// <inheritdoc />
         public async Task<IEnumerable<StreamBase>> GetMediaStreamsAsync(string url)
         {
             var videoId = Utils.ExtractVideoId(url);
@@ -86,8 +93,8 @@ namespace YoutubeLib
                 if (!string.IsNullOrWhiteSpace(signature))
                 {
                     // Decipher the signature
-                    signature = playerSourceCode.ApplyDecihperOperations(signature);
-                    //Utils.AddQueryParameters(url, new {signature}); This solution is not viable as the 'sp' parameter may vary
+                    signature = playerSourceCode.ApplyDecipherOperations(signature);
+                    //Utils.AddQueryParameters(url, new {signature}); This solution is not viable as the value of the 'sp' parameter may vary
 
                     // Add a signature parameter to the original stream URL
                     var signatureParameter = streamInfo.GetValueOrDefault("sp");
@@ -112,7 +119,7 @@ namespace YoutubeLib
                 var signature = streamInfo.GetValueOrDefault("s");
                 if (!string.IsNullOrWhiteSpace(signature))
                 {
-                    signature = playerSourceCode.ApplyDecihperOperations(signature);
+                    signature = playerSourceCode.ApplyDecipherOperations(signature);
                     var signatureParameter = streamInfo.GetValueOrDefault("sp");
                     streamUrl +=
                         $"&{(string.IsNullOrWhiteSpace(signatureParameter) ? "signature" : signatureParameter)}={signature}";
@@ -160,7 +167,7 @@ namespace YoutubeLib
             {
                 var serializer = new BinaryFormatter();
                 serializer.Serialize(memoryStream, mediaStream);
-                outputStream.Write(memoryStream.ToArray(), 0, (int) memoryStream.Length);
+                await outputStream.WriteAsync(memoryStream.ToArray(), 0, (int) memoryStream.Length);
             }
         }
 
@@ -249,13 +256,30 @@ namespace YoutubeLib
             var videoData = await GetVideoInfoAsync(url);
             var playerResponse = JObject.Parse(videoData["player_response"]);
             var videoDetails = playerResponse["videoDetails"];
-            var keywords = videoDetails["keywords"].ToObject<string[]>();
+            //var keywords = videoDetails["keywords"].ToObject<string[]>();
             var thumbnails = videoDetails["thumbnail"]["thumbnails"].ToObject<Thumbnail[]>();
 
             var video = videoDetails.ToObject<Video>();
-            video.Keywords = keywords;
-            video.Thumbnails = thumbnails; // TODO: This is a temp fix. Figure out a way to deserialize thumbnail data from the videoDetails JSON
+            //video.Keywords = keywords;
+            video.Thumbnails = thumbnails; // This seems to be the right approach when it comes to deserializing arrays from nested objects
             return video;
+        }
+
+        /// <inheritdoc />
+        public async Task<Playlist> GetPlaylistAsync(string url)
+        {
+            var playlistId = Utils.ExtractPlaylistId(url);
+            if (string.IsNullOrWhiteSpace(playlistId))
+            {
+                throw new ArgumentException("Invalid playlist.", nameof(url));
+            }
+
+            var response =
+                await HttpClient.Instance.GetAsync(
+                    $"https://www.youtube.com/list_ajax?style=json&action_get_list=1&list=PLv2EVjKCGQ5xfWVAetcBQqUkweed5Jqn5");
+            response.EnsureSuccessStatusCode();
+            var content = await response.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<Playlist>(content);
         }
     }
 }
