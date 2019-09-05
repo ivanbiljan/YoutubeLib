@@ -3,7 +3,7 @@
     /// <summary>
     ///     Provides the base class for a decipher function.
     /// </summary>
-    public abstract class DecipherFunctionBase
+    internal abstract class DecipherFunctionBase
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="DecipherFunctionBase" /> class with the specified optional index.

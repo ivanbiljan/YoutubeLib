@@ -40,12 +40,6 @@ namespace YoutubeLib
             }
         }
 
-        /// <summary>
-        /// Downloads the file at the specified URL using an HTTP request and streams it back to the caller.
-        /// </summary>
-        /// <param name="url">The file URL.</param>
-        /// <param name="segmentSize">An optional parameter which specifies the size of the segments (in MB) in which the file will be downloaded. Negative values (or zero) indicate that the file should not be segmented.</param>
-        /// <returns>The stream.</returns>
         internal static async Task<Stream> GetStreamInSegmentsAsync(string url, long segmentSize = 10)
         {
             //var request = (HttpWebRequest) WebRequest.Create(url);
@@ -99,12 +93,6 @@ namespace YoutubeLib
             return outputStream;
         }
 
-        /// <summary>
-        /// Downloads the stream from the specified URL and saves it to the specified file.
-        /// </summary>
-        /// <param name="url">The media stream URL.</param>
-        /// <param name="file">The file.</param>
-        /// <returns>The task for this operation.</returns>
         internal static async Task DownloadToFileAsync(string url, string file, int segmentSize = 10)
         {
             using (var stream = await GetStreamInSegmentsAsync(url, segmentSize))

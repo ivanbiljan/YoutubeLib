@@ -7,7 +7,7 @@ namespace YoutubeLib.Videos
     /// <summary>
     ///     Represents a YouTube player's source code.
     /// </summary>
-    public sealed class PlayerSourceCode
+    internal sealed class PlayerSourceCode
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="PlayerSourceCode" /> class with the specified session token and decipher functions.

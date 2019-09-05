@@ -8,9 +8,9 @@ namespace YoutubeLib.Playlists
     /// </summary>
     public sealed class PlaylistItem
     {
-        [JsonProperty("added")] private string _stringDateAdded;
+        [JsonProperty("added")] private readonly string _stringDateAdded;
 
-        [JsonProperty("views")] private string _stringViewCount;
+        [JsonProperty("views")] private readonly string _stringViewCount;
 
         /// <summary>
         ///     Gets the video's author.

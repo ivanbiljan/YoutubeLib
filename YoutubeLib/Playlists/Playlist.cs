@@ -9,7 +9,7 @@ namespace YoutubeLib.Playlists
     /// </summary>
     public sealed class Playlist
     {
-        [JsonProperty("video")] private readonly PlaylistItem[] _videos;
+        [JsonProperty("video")] private List<PlaylistItem> _videos;
 
         /// <summary>
         ///     Gets the playlist's description.
@@ -33,5 +33,10 @@ namespace YoutubeLib.Playlists
         /// </summary>
         [JsonProperty("views")]
         public int ViewCount { get; private set; }
+
+        internal void AddVideo(PlaylistItem playlistItem)
+        {
+            _videos.Add(playlistItem);
+        }
     }
 }

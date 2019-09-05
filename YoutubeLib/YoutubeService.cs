@@ -261,12 +261,39 @@ namespace YoutubeLib
                 throw new ArgumentException("Invalid playlist.", nameof(url));
             }
 
+            // This request returns up to 200 videos. In order to obtain information about the rest of the playlist we have to send multiple requests
             var response =
                 await HttpClient.Instance.GetAsync(
-                    $"https://www.youtube.com/list_ajax?style=json&action_get_list=1&list=PLv2EVjKCGQ5xfWVAetcBQqUkweed5Jqn5");
+                    $"https://www.youtube.com/list_ajax?style=json&action_get_list=1&list={playlistId}");
             response.EnsureSuccessStatusCode();
             var content = await response.Content.ReadAsStringAsync();
-            return JsonConvert.DeserializeObject<Playlist>(content);
+            var playlist = JsonConvert.DeserializeObject<Playlist>(content);
+            var cachedIds = playlist.Videos.Select(v => v.EncryptedId).ToList();
+            var index = 201;
+            int numberOfNewVideos;
+            do
+            {
+                numberOfNewVideos = 0;
+                response = await HttpClient.Instance.GetAsync(
+                    $"https://www.youtube.com/list_ajax?style=json&action_get_list=1&list={playlistId}&index={index}");
+                var videos = JToken.Parse(await response.Content.ReadAsStringAsync())["video"]
+                    .ToObject<PlaylistItem[]>();
+                foreach (var video in videos)
+                {
+                    if (cachedIds.Contains(video.EncryptedId))
+                    {
+                        continue;
+                    }
+
+                    cachedIds.Add(video.EncryptedId);
+                    playlist.AddVideo(video);
+                    ++numberOfNewVideos;
+                }
+
+                index += 100;
+            } while (numberOfNewVideos > 0);
+
+            return playlist;
         }
     }
 }

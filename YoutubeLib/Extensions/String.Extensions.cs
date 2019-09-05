@@ -13,8 +13,8 @@ namespace YoutubeLib.Extensions
         /// Swaps the characters at the specified positions in the specified input string.
         /// </summary>
         /// <param name="source">The input string, which must not be <c>null</c>.</param>
-        /// <param name="firstCharIndex">The index of the first character, which must not be negative.</param>
-        /// <param name="secondCharIndex">The index of the second character, which must not be negative.</param>
+        /// <param name="firstCharIndex">The index of the first character, which must not be negative or greater than the length of the string.</param>
+        /// <param name="secondCharIndex">The index of the second character, which must not be negative or greater than the length of the string..</param>
         /// <returns>The new string.</returns>
         public static string SwapCharacters(this string source, int firstCharIndex, int secondCharIndex)
         {

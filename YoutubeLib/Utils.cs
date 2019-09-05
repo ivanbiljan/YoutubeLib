@@ -13,7 +13,7 @@ namespace YoutubeLib
     /// <summary>
     ///     Exposes utility methods.
     /// </summary>
-    public static class Utils
+    internal static class Utils
     {
         private static readonly Regex VideoIdRegex =
             new Regex(
@@ -77,8 +77,7 @@ namespace YoutubeLib
                 return string.Empty;
             }
 
-            var videoId = match.Groups["videoId"];
-            return videoId == null ? string.Empty : videoId.Value;
+            return match.Groups["videoId"]?.Value ?? string.Empty;
         }
 
         /// <summary>

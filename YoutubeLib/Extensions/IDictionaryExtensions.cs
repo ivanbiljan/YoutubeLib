@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace YoutubeLib.Extensions
 {
@@ -13,7 +14,7 @@ namespace YoutubeLib.Extensions
         /// </summary>
         /// <typeparam name="TKey">The type of key.</typeparam>
         /// <typeparam name="TValue">The type of value.</typeparam>
-        /// <param name="dictionary">The dictionary.</param>
+        /// <param name="dictionary">The dictionary, which must not be <c>null</c>.</param>
         /// <param name="key">The key.</param>
         /// <param name="defaultValue">An optional default value.</param>
         /// <returns>
@@ -23,6 +24,11 @@ namespace YoutubeLib.Extensions
         public static TValue GetValueOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key,
             TValue defaultValue = default)
         {
+            if (dictionary == null)
+            {
+                throw new ArgumentNullException(nameof(dictionary));
+            }
+
             return dictionary.TryGetValue(key, out var value) ? value : defaultValue;
         }
     }
