@@ -20,38 +20,6 @@ namespace YoutubeLib
                 @"(?:https?:\/\/)?(?:www\.)?youtu(?:(\.be)|(be\.com\/(?:(watch)|(v\/))))(?(1)\/(?<videoId>.*)|(?(3)\?v=(?<videoId>.*)|(?<videoId>.*)))");
 
         /// <summary>
-        ///     Updates the specified URL with the specified parameters.
-        /// </summary>
-        /// <param name="url">The URL.</param>
-        /// <param name="params">An enumerable collection of anonymous types that represent the parameters.</param>
-        /// <returns>The updated URL.</returns>
-        public static string AddQueryParameters(string url, params object[] @params)
-        {
-            IEnumerable<(string, object)> ResolveAnonymousType(object obj)
-            {
-                var type = obj.GetType();
-                if (type.Name.Contains("AnonymousType") ||
-                    type.GetCustomAttributes(typeof(CompilerGeneratedAttribute), false).Length == 0)
-                {
-                    return Enumerable.Empty<(string, object)>();
-                }
-
-                return type.GetProperties().Select(p => (p.Name, p.GetValue(obj, null)));
-            }
-
-            var stringBuilder = new StringBuilder(url);
-            foreach (var param in @params)
-            {
-                foreach (var (paramName, paramValue) in ResolveAnonymousType(param))
-                {
-                    stringBuilder.Append($"&{paramName}={paramValue}");
-                }
-            }
-
-            return stringBuilder.ToString();
-        }
-
-        /// <summary>
         ///     Extracts a YouTube playlist ID based on the given input string.
         /// </summary>
         /// <param name="input">The input string.</param>

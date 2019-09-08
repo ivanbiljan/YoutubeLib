@@ -58,30 +58,6 @@ namespace YoutubeLib.Http
 
         internal static async Task<Stream> GetStreamInSegmentsAsync(string url, long contentLength)
         {
-            // The memory stream runs out of memory eventually
-            //segmentSize = segmentSize <= 0 ? 10 * 1024 * 1024 : segmentSize * 1024 * 1024; // Download 10MB segments by default
-            //long readContentBytes = 0;
-            //var outputStream = new MemoryStream((int) contentLength);
-            //do
-            //{
-            //    using (var request = new HttpRequestMessage {RequestUri = new Uri(url), Method = HttpMethod.Get})
-            //    {
-            //        request.Headers.Range = new RangeHeaderValue(readContentBytes, readContentBytes + segmentSize - 1);
-            //        var response = await Instance.SendAsync(request, HttpCompletionOption.ResponseHeadersRead);
-            //        using (var responseStream = await response.Content.ReadAsStreamAsync())
-            //        {
-            //            var buffer = new byte[segmentSize];
-            //            var length = responseStream.Read(buffer, 0, buffer.Length);
-            //            outputStream.Write(buffer, 0, buffer.Length);
-            //            readContentBytes += length;
-            //            Debug.WriteLine(readContentBytes);
-            //        }
-            //    }
-            //} while (readContentBytes < contentLength);
-
-            //outputStream.Position = 0;
-            //return outputStream;
-
             return new HttpHelperStream(url, contentLength);
         }
     }

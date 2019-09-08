@@ -149,13 +149,10 @@ namespace YoutubeLib
             var videoData = await GetVideoInfoAsync(url);
             var playerResponse = JObject.Parse(videoData["player_response"]);
             var videoDetails = playerResponse["videoDetails"];
-            //var keywords = videoDetails["keywords"].ToObject<string[]>();
-            var thumbnails = videoDetails["thumbnail"]["thumbnails"].ToObject<Thumbnail[]>();
-
             var video = videoDetails.ToObject<Video>();
-            //video.Keywords = keywords;
-            video.Thumbnails =
-                thumbnails; // This seems to be the right approach when it comes to deserializing arrays from nested objects
+
+            // This seems to be the right approach when it comes to deserializing arrays from nested objects
+            video.Thumbnails = videoDetails["thumbnail"]["thumbnails"].ToObject<Thumbnail[]>(); 
             return video;
         }
 
@@ -182,7 +179,8 @@ namespace YoutubeLib
             {
                 numberOfNewVideos = 0;
                 response = await HttpClient.Instance.GetAsync(
-                    $"https://www.youtube.com/list_ajax?style=json&action_get_list=1&list={playlistId}&index={index}");
+                        $"https://www.youtube.com/list_ajax?style=json&action_get_list=1&list={playlistId}&index={index}")
+                    .ConfigureAwait(false);
                 var videos = JToken.Parse(await response.Content.ReadAsStringAsync().ConfigureAwait(false))["video"]
                     .ToObject<PlaylistItem[]>();
                 foreach (var video in videos)
@@ -215,7 +213,6 @@ namespace YoutubeLib
                 HttpCompletionOption.ResponseContentRead).ConfigureAwait(false);
             response.EnsureSuccessStatusCode();
             var embedPageHtml = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-            var sessionToken = Regex.Match(embedPageHtml, @"sts:\s*(\d+)").Groups[1].Value;
             var htmlDocument = new HtmlDocument();
             htmlDocument.LoadHtml(embedPageHtml);
 
@@ -283,7 +280,7 @@ namespace YoutubeLib
                 }
             }
 
-            return new PlayerSourceCode(sessionToken, decipherFunctions);
+            return new PlayerSourceCode(decipherFunctions);
         }
 
         private async Task<IDictionary<string, string>> GetVideoInfoAsync(string url)
