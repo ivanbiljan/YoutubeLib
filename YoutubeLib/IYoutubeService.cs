@@ -36,17 +36,17 @@ namespace YoutubeLib
         Task<IEnumerable<StreamBase>> GetMediaStreamsAsync(string url);
 
         /// <summary>
+        ///     Gets information about a YouTube playlist using the specified URL.
+        /// </summary>
+        /// <param name="url">The URL.</param>
+        /// <returns>The task for this operation.</returns>
+        Task<Playlist> GetPlaylistAsync(string url);
+
+        /// <summary>
         ///     Gets information about a YouTube video using the specified URL.
         /// </summary>
         /// <param name="url">The URL.</param>
         /// <returns>The task for this operation.</returns>
         Task<Video> GetVideoAsync(string url);
-
-        /// <summary>
-        /// Gets information about a YouTube playlist using the specified URL.
-        /// </summary>
-        /// <param name="url">The URL.</param>
-        /// <returns>The task for this operation.</returns>
-        Task<Playlist> GetPlaylistAsync(string url);
     }
 }

@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace YoutubeLib.Streams
+﻿namespace YoutubeLib.Streams
 {
     /// <summary>
-    /// Specifies the audio codec of a YouTube media stream.
+    ///     Specifies the audio codec of a YouTube media stream.
     /// </summary>
     public enum AudioCodec
     {

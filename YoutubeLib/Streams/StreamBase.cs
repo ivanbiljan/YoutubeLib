@@ -25,6 +25,11 @@ namespace YoutubeLib.Streams
         }
 
         /// <summary>
+        ///     Gets the cipher signature used to protect the stream.
+        /// </summary>
+        public string CipherSignature { get; internal set; }
+
+        /// <summary>
         ///     An integer key that describes the stream's properties.
         /// </summary>
         public int Itag { get; }
@@ -40,12 +45,7 @@ namespace YoutubeLib.Streams
         public string Url { get; }
 
         /// <summary>
-        /// Gets the cipher signature used to protect the stream.
-        /// </summary>
-        public string CipherSignature { get; internal set; }
-
-        /// <summary>
-        /// Gets the stream's video quality.
+        ///     Gets the stream's video quality.
         /// </summary>
         public VideoQuality? VideoQuality { get; }
     }

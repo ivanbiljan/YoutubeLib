@@ -9,8 +9,7 @@ namespace YoutubeLib.Videos
     /// </summary>
     public sealed class Video
     {
-        [JsonProperty("keywords")]
-        private readonly string[] _keywords;
+        [JsonProperty("keywords")] private readonly string[] _keywords;
 
         /// <summary>
         ///     Gets the video author's channel ID.

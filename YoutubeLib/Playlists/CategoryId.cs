@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace YoutubeLib.Playlists
+﻿namespace YoutubeLib.Playlists
 {
     /// <summary>
-    /// Specifies the category of a YouTube video.
+    ///     Specifies the category of a YouTube video.
     /// </summary>
     public enum CategoryId
     {

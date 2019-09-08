@@ -9,13 +9,7 @@ namespace YoutubeLib.Streams
     internal sealed class ItagDescriptor
     {
         /// <summary>
-        /// Gets the default itag descriptor used for unknown itag codes.
-        /// </summary>
-        public static ItagDescriptor DefaultDescriptor = new ItagDescriptor(StreamType.Unknown,
-            Streams.AudioCodec.Unknown, Streams.VideoCodec.Unknown, null);
-
-        /// <summary>
-        /// A mapping of itag codes to their corresponding itag descriptors.
+        ///     A mapping of itag codes to their corresponding itag descriptors.
         /// </summary>
         public static readonly Dictionary<int, ItagDescriptor> KnownDescriptors = new Dictionary<int, ItagDescriptor>
         {
@@ -247,6 +241,12 @@ namespace YoutubeLib.Streams
             {250, new ItagDescriptor(StreamType.Webm, Streams.AudioCodec.Opus, null, null)},
             {251, new ItagDescriptor(StreamType.Webm, Streams.AudioCodec.Opus, null, null)}
         };
+
+        /// <summary>
+        ///     Gets the default itag descriptor used for unknown itag codes.
+        /// </summary>
+        public static ItagDescriptor DefaultDescriptor = new ItagDescriptor(StreamType.Unknown,
+            Streams.AudioCodec.Unknown, Streams.VideoCodec.Unknown, null);
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="ItagDescriptor" /> class with the specified properties.

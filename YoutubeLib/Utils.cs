@@ -58,7 +58,13 @@ namespace YoutubeLib
         /// <returns>The playlist ID.</returns>
         public static string ExtractPlaylistId(string input)
         {
-            return HttpUtility.ParseQueryString(input)["list"];
+            var queryStartIndex = input.IndexOf('?');
+            if (queryStartIndex == -1)
+            {
+                return HttpUtility.ParseQueryString(input)["list"];
+            }
+
+            return HttpUtility.ParseQueryString(input.Substring(queryStartIndex + 1))["list"];
         }
 
         // TODO: Support various URL authorities (youtu.be, youtube.com/v/ID etc)

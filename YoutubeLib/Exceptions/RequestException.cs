@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Runtime.Serialization;
-using System.Text;
 
 namespace YoutubeLib.ErrorHandling
 {
     /// <summary>
-    /// Represents a YouTube request exception.
+    ///     Represents a YouTube request exception.
     /// </summary>
     [Serializable]
     public class RequestException : Exception
@@ -19,14 +17,14 @@ namespace YoutubeLib.ErrorHandling
         //
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="RequestException"/> class.
+        ///     Initializes a new instance of the <see cref="RequestException" /> class.
         /// </summary>
         public RequestException()
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="RequestException"/> class with the specified exception message.
+        ///     Initializes a new instance of the <see cref="RequestException" /> class with the specified exception message.
         /// </summary>
         /// <param name="message">The message.</param>
         public RequestException(string message) : base(message)
@@ -34,7 +32,8 @@ namespace YoutubeLib.ErrorHandling
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="RequestException"/> class with the specified message and inner exception.
+        ///     Initializes a new instance of the <see cref="RequestException" /> class with the specified message and inner
+        ///     exception.
         /// </summary>
         /// <param name="message">The message.</param>
         /// <param name="inner">The inner exception.</param>
@@ -43,7 +42,8 @@ namespace YoutubeLib.ErrorHandling
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="RequestException"/> class with the specified serialization info and context.
+        ///     Initializes a new instance of the <see cref="RequestException" /> class with the specified serialization info and
+        ///     context.
         /// </summary>
         /// <param name="info">The serialization info.</param>
         /// <param name="context">The serialization context.</param>

@@ -1,20 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace YoutubeLib.Streams
+﻿namespace YoutubeLib.Streams
 {
     /// <summary>
-    /// Specifies the container for a YouTube media stream.
+    ///     Specifies the container for a YouTube media stream.
     /// </summary>
     public enum StreamType
     {
         Unknown,
-        Flv, 
+        Flv,
         Tgpp,
         Mp4,
         Webm,
         Hls,
-        M4a,
+        M4a
     }
 }

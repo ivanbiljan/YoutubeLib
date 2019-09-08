@@ -10,7 +10,8 @@ namespace YoutubeLib.Videos
     internal sealed class PlayerSourceCode
     {
         /// <summary>
-        ///     Initializes a new instance of the <see cref="PlayerSourceCode" /> class with the specified session token and decipher functions.
+        ///     Initializes a new instance of the <see cref="PlayerSourceCode" /> class with the specified session token and
+        ///     decipher functions.
         /// </summary>
         /// <param name="sts">The session token.</param>
         /// <param name="decipherFunctions">The decipher functions.</param>
@@ -26,7 +27,7 @@ namespace YoutubeLib.Videos
         public IEnumerable<DecipherFunctionBase> DecipherFunctions { get; }
 
         /// <summary>
-        /// Gets a "session token" for this player.
+        ///     Gets a "session token" for this player.
         /// </summary>
         public string Sts { get; }
 

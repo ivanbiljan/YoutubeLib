@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace YoutubeLib.Videos.Deciphering
+﻿namespace YoutubeLib.Videos.Deciphering
 {
     internal sealed class SliceDecipherFunction : DecipherFunctionBase
     {

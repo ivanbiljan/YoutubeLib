@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace YoutubeLib.Streams
+﻿namespace YoutubeLib.Streams
 {
     /// <summary>
-    /// Specifies the video codec of a YouTube media stream.
+    ///     Specifies the video codec of a YouTube media stream.
     /// </summary>
     public enum VideoCodec
     {

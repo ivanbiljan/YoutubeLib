@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace YoutubeLib.Videos
+﻿namespace YoutubeLib.Videos
 {
     /// <summary>
-    /// Specifies the quality of a YouTube video / YouTube media stream.
+    ///     Specifies the quality of a YouTube video / YouTube media stream.
     /// </summary>
     public enum VideoQuality
     {
