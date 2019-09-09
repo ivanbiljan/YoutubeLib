@@ -157,6 +157,18 @@ namespace YoutubeLib
         }
 
         /// <inheritdoc />
+        public async Task<IEnumerable<PlaylistItem>> GetVideosAsync(string searchQuery)
+        {
+            // TODO: Remove PlaylistItem as PlaylistItem and Video are the same thing
+            // https://developers.google.com/youtube/player_parameters
+            var response = await HttpClient.Instance
+                .GetAsync(
+                    $"https://www.youtube.com/search_ajax?style=json&embeddable=1&search_query={HttpUtility.UrlEncode(searchQuery)}")
+                .ConfigureAwait(false);
+            return JToken.Parse(await response.Content.ReadAsStringAsync())["video"].ToObject<PlaylistItem[]>();
+        }
+
+        /// <inheritdoc />
         public async Task<Playlist> GetPlaylistAsync(string url)
         {
             var playlistId = Utils.ExtractPlaylistId(url);

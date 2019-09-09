@@ -22,6 +22,9 @@ namespace YoutubeLib.Tests
         [Test]
         public async Task TestMethod()
         {
+            var youtubeService = new YoutubeService();
+            var searchResults = await youtubeService.GetVideosAsync("Corey Taylor");
+            Debug.WriteLine(searchResults.ElementAt(0).Title);
         }
     }
 }

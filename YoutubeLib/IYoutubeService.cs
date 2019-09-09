@@ -48,5 +48,12 @@ namespace YoutubeLib
         /// <param name="url">The URL.</param>
         /// <returns>The task for this operation.</returns>
         Task<Video> GetVideoAsync(string url);
+
+        /// <summary>
+        /// Returns search results for a specified search query.
+        /// </summary>
+        /// <param name="searchQuery">The search query.</param>
+        /// <returns>The task for this operation.</returns>
+        Task<IEnumerable<PlaylistItem>> GetVideosAsync(string searchQuery);
     }
 }
